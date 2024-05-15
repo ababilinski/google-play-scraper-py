@@ -6,7 +6,7 @@ import logging
 from .exceptions import ScraperException
 
 SELF_DIR = os.path.dirname(os.path.abspath(__file__))
-NODE_DIR = os.path.join(SELF_DIR, 'node_modules', 'google-play-scraper')
+NODE_DIR = os.path.join(SELF_DIR, 'node_modules', 'google-play-scraper@9.1.1')
 logger = logging.getLogger('__main__')
 
 # Private module class.
