@@ -6,8 +6,21 @@ import logging
 from .exceptions import ScraperException
 
 SELF_DIR = os.path.dirname(os.path.abspath(__file__))
-NODE_DIR = os.path.join(SELF_DIR, 'node_modules', 'google-play-scraper@9.1.1')
+NODE_DIR = os.path.join(SELF_DIR, 'node_modules', 'google-play-scraper')
 logger = logging.getLogger('__main__')
+
+# Function to install a specific version of google-play-scraper
+def install_google_play_scraper(version='9.1.1'):
+    install_args = ['npm', 'install', f'google-play-scraper@{version}']
+    try:
+        subprocess.run(install_args, cwd=SELF_DIR, capture_output=True, check=True)
+        print(f"Successfully installed google-play-scraper@{version}")
+    except subprocess.CalledProcessError as e:
+        stderr = e.stderr.decode()
+        raise ScraperException(f"Failed to install google-play-scraper: {stderr}") from None
+
+# Install the desired version of google-play-scraper
+install_google_play_scraper()
 
 # Private module class.
 class _Wrapper:
@@ -42,7 +55,7 @@ class _Wrapper:
         return True
 
     def update_modules(self):
-        install_args = ['npm', '--prefix', SELF_DIR, 'update']
+        install_args = ['npm', '--prefix', SELF_DIR, 'install', 'google-play-scraper@9.2.0']
         return subprocess.run(install_args, capture_output=True, check=True)
 
     def set_vars(self, vars=[]):
